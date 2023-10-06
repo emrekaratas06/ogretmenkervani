@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html th:replace="~{_layout :: layout(~{::body})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Eğitimde Iyi Örnekler</title>
+</head>
+<body>
+    <div th:fragment="content">
+<!-- ... başlık ve diğer meta bilgileri -->
+        <h2>Eğitimde İyi Örnekler</h2>
+        <div>
+            <p th:text="${bilgilendirmeYazisi}">Bilgilendirme yazısı buraya gelir.</p>
+        </div>
+        <form action="#" th:action="@{/egitimIyiOrnekler/yukle}" method="post">
+            <!-- Proje detayları, materyal tasarımı detayları gibi alanlar buraya eklenebilir -->
+            <div>
+                <label>Proje Detayları:</label>
+                <textarea name="projeDetaylari" required></textarea>
+            </div>
+            <div>
+                <label>Fotoğraf:</label>
+                <input type="file" name="foto" required />
+            </div>
+            <div>
+                <input type="checkbox" name="okudumAnladim" required /> Okudum ve anladım.
+            </div>
+            <div>
+                <button type="submit">Gönder</button>
+            </div>
+        </form>
+         <!-- ... -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html th:replace="~{_layout :: layout(~{::body})}">
+<head>
+  <title>Anasayfa</title>
+</head>
+<body>
+<div th:fragment="content">
+  <div class="jumbotron">
+    <h1 class="display-4">Öğretmeniz Projesi İçerik Paylaşım Platformu</h1>
+    <p class="lead">
+      Proje Amacı: Ülkemizdeki öğretmenlerin sanat, spor, kültür, edebiyat gibi alanlarda gerçekleştirdikleri çalışmaları tanıtarak görünürlüklerini artırmak.
+    </p>
+    <hr class="my-4">
+    <p>
+      Bu amaçla, öğretmenlere özgü içeriklerle doldurulacak bir dijital dergi, YouTube kanalı ve web sitesi oluşturmak. Mebbis aracılığıyla sadece mebbis kullanıcısı olan öğretmenler giriş yapabilir.
+    </p>
+    <div class="content-upload-prompt">
+      <a href="#" onclick="toggleContentUploader()">İçerik yüklemek için tıklayınız</a>
+    </div>
+
+    <div class="content-upload-section" id="contentUploader">
+      <div class="row">
+        <div class="col-md-6 video-upload">
+          <a href="video_upload_link">
+            <img src="/image/video_icon.png" alt="Video Icon"> <!-- Burayı güncelledik -->
+            Video İçeriği yükle..
+          </a>
+        </div>
+        <div class="col-md-6 magazine-upload">
+          <a href="#" onclick="toggleDropdown()">
+            <img src="/image/magazine_icon.png" alt="Magazine Icon"> <!-- Burayı güncelledik -->
+            Dijital dergi İçeriği yükle..
+          </a>
+          <ul class="dropdown-content" id="magazineDropdown">
+            <li><a th:href="@{/api/fotografSanati}">Fotoğraf Sanatı</a></li>
+            <li><a th:href="@{/siir}">Şiir</a></li>
+            <li><a th:href="@{/egitimIyiOrnekler}">Eğitimde İyi Örnekler</a></li>
+            <li><a th:href="@{/ogretmenAnilari}">Öğretmen Anıları</a></li>
+            <li><a th:href="@{/ayinTemasi}">Ayın Teması</a></li>
+            <li><a th:href="@{/ilIlceTanitimi}">İl/İlçe Tanıtımı</a></li>
+            <li><a th:href="@{/basariHikayeleri}">Başarı Hikâyeleri</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:unless="${#authentication != null and #authentication.principal != 'anonymousUser'}">
+    <a href="/login">Oturum Aç</a>
+  </div>
+</div>
+<script>
+  function toggleContentUploader() {
+    const contentUploader = document.getElementById('contentUploader');
+    if (contentUploader.style.display === 'none' || contentUploader.style.display === '') {
+      contentUploader.style.display = 'block';
+    } else {
+      contentUploader.style.display = 'none';
+    }
+  }
+
+  function toggleDropdown() {
+    const dropdown = document.getElementById('magazineDropdown');
+    if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+      dropdown.style.display = 'block';
+    } else {
+      dropdown.style.display = 'none';
+    }
+  }
+
+</script>
+</body>
+</html>
+

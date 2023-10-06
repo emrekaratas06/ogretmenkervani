@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+      <html xmlns:th="http://www.thymeleaf.org">
+      <head>
+      <title>YouTube Videoları</title>
+  <!-- Diğer CSS, JS ve meta bilgileri buraya eklenebilir. -->
+</head>
+<body>
+
+<h2>YouTube Videoları</h2>
+
+<div>
+  <p th:text="${bilgilendirmeYazisi}">Bilgilendirme yazısı buraya gelir.</p>
+</div>
+
+<form action="#" th:action="@{/youtubeVideolari/yukle}" method="post">
+  <div>
+    <label>Video Başlığı:</label>
+    <input type="text" name="videoBasligi" required />
+  </div>
+  <div>
+    <label>YouTube Video URL:</label>
+    <input type="url" name="videoUrl" placeholder="https://www.youtube.com/watch?v=VideoID" required />
+    <small>Lütfen tam YouTube video URL'sini girin.</small>
+  </div>
+  <div>
+    <label>Video Açıklaması:</label>
+    <textarea name="videoAciklamasi" rows="5"></textarea>
+  </div>
+  <div>
+    <button type="submit">Gönder</button>
+  </div>
+</form>
+
+<!-- Videoların listelendiği alan burada olabilir -->
+
+<div th:each="video : ${videolar}">
+  <h3 th:text="${video.baslik}">Video Başlığı</h3>
+  <iframe width="560" height="315" th:src="${video.url}" frameborder="0" allowfullscreen></iframe>
+  <p th:text="${video.aciklama}">Video açıklaması buraya gelir.</p>
+</div>
+
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

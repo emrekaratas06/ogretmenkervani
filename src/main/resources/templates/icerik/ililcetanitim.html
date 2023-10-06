@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html th:replace="~{_layout :: layout(~{::body})}">
+<head>
+    <title>İl/İlçe Tanıtımı</title>
+    <!-- Diğer CSS, JS ve meta bilgileri buraya eklenebilir. -->
+</head>
+<body>
+    <div th:fragment="content">
+        <h2>İl/İlçe Tanıtımı</h2>
+
+        <div>
+            <p th:text="${bilgilendirmeYazisi}">Bilgilendirme yazısı buraya gelir.</p>
+        </div>
+
+        <form action="#" th:action="@{/ilIlceTanitimi/yukle}" method="post">
+            <div>
+                <label>İl Adı:</label>
+                <input type="text" name="ilAdi" required />
+            </div>
+            <div>
+                <label>İlçe Adı:</label>
+                <input type="text" name="ilceAdi" />
+            </div>
+            <div>
+                <label>Tanıtım Metni:</label>
+                <textarea name="tanitimMetni" required></textarea>
+            </div>
+            <div>
+                <label>Fotoğraf:</label>
+                <input type="file" name="foto" required />
+            </div>
+            <div>
+                <button type="submit">Gönder</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html th:replace="~{_layout :: layout(~{::body})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Ogretmen Profil/Icerik</title>
+</head>
+<body>
+<div th:fragment="content">
+    <!-- Temel Bilgiler -->
+    <h3>Kullanıcı Bilgileri</h3>
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <td>Ad</td>
+            <td th:text="${ogretmen.ad}"></td>
+        </tr>
+        <tr>
+            <td>Soyad</td>
+            <td th:text="${ogretmen.soyad}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td th:text="${ogretmen.email}"></td>
+        </tr>
+        <tr>
+            <td>Telefon Numarası</td>
+            <td th:text="${ogretmen.telefonNumarasi}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Paylaşımlar -->
+    <h3>Paylaşımlarım</h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Metin</th>
+            <th>İşlemler</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="icerik : ${kullaniciIcerikleri}">
+            <td th:text="${icerik.baslik}"></td>
+            <td th:text="${icerik.metin}"></td>
+            <td>
+                <!-- Güncelle ve Sil butonları -->
+                <button th:data-id="${icerik.id}" class="btn btn-warning update-btn" data-toggle="collapse" href="#updateFormArea" role="button" aria-expanded="false" aria-controls="updateFormArea">Güncelle</button>
+                <button th:data-id="${icerik.id}" class="btn btn-danger delete-btn">Sil</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">İçerik Güncelle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updateForm">
+                    <!-- Gizli bir alan olarak icerik id'sini saklayın -->
+                    <input type="hidden" id="updateId">
+
+                    <!-- Diğer güncelleme alanlarınız -->
+                    <div class="form-group">
+                        <label for="updateFoto">Fotoğraf:</label>
+                        <input type="file" id="updateFoto" name="foto" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateHikaye">Fotoğrafın Hikayesi:</label>
+                        <textarea id="updateHikaye" name="hikaye" maxlength="300" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateAdSoyad">Fotoğrafı çeken kişi Ad Soyad:</label>
+                        <input type="text" id="updateAdSoyad" name="adSoyad" class="form-control" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Güncelleme için tıklandığında
+        $(".update-btn").click(function() {
+            var id = $(this).data("id");
+            var tr = $(this).closest("tr");
+
+            var baslik = tr.find("td:nth-child(1)").text();
+            var metin = tr.find("td:nth-child(2)").text();
+            var adSoyad = tr.find("td:nth-child(3)").text();
+            var fotografYolu = tr.find("td:nth-child(4)").text();
+
+            // Formdaki alanları doldur
+            $("#updateId").val(id);
+            $("#updateBaslik").val(baslik);
+            $("#updateMetin").val(metin);
+            $("#updateAdSoyad").val(adSoyad);
+            $("#updateFoto").val(fotografYolu);  // Bu doğrudan bir dosya yolu değilse bu şekilde çalışmayabilir.
+
+            // Modalı göster
+            $("#updateModal").modal("show");
+        });
+
+        $("#updateForm").submit(function(e) { //güncelleme
+            e.preventDefault();
+            var formData = new FormData(this);
+            var id = $("#updateId").val();
+
+            $("#updateForm").submit(function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this); // Form verisini al
+                var id = $("#updateId").val();
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/icerik/" + id,
+                    data: formData,
+                    processData: false,  // Data'nın jQuery tarafından işlenmemesi için
+                    contentType: false,  // contentType otomatik olarak ayarlanır
+                    success: function(response) {
+                        alert("Başarıyla güncellendi!");
+                        location.reload(); // Sayfayı yeniden yükle
+                    },
+                    error: function(error) {
+                        alert("Bir hata oluştu!");
+                    }
+                });
+            });
+        });
+
+        // Silme için tıklandığında
+        $(".delete-btn").click(function() {
+            var id = $(this).data("id");
+            var currentRow = $(this).closest("tr");  // Silinen öğenin bulunduğu tablo satırını seçer
+            $.ajax({
+                type: "DELETE",
+                url: "/api/icerik/" + id,
+                success: function(response) {
+                    alert("Başarıyla silindi!");
+                    currentRow.remove(); // Burada daha önce belirlediğimiz 'currentRow' değişkenini kullanıyoruz.
+                },
+                error: function(error) {
+                    alert("Bir hata oluştu!");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

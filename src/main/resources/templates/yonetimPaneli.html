@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html th:replace="~{_layout :: layout(~{::body})}">
+
+<head>
+  <title>Yönetim Paneli</title>
+</head>
+
+<body>
+<div th:fragment="content" class="mt-4">
+
+  <!-- Rol Ekleme ve Listeleme Kartı -->
+  <div class="card">
+    <div class="card-header">
+      <a data-toggle="collapse" href="#rolEklemeFormu" aria-expanded="false" aria-controls="rolEklemeFormu">Rol Ekleme Formu</a>
+    </div>
+    <div class="collapse" id="rolEklemeFormu">
+      <div class="card-body">
+        <form th:action="@{/yonetim/rolEkle}" method="post">
+          <div class="form-group">
+            <label for="tcKimlikNo">TC Kimlik No:</label>
+            <input type="number" id="tcKimlikNo" name="tcKimlikNo" class="form-control" required>
+          </div>
+          <!-- Eğer kullanıcı ROLE_SUPERADMIN rolüne sahipse -->
+          <div th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}">
+            <label for="rolAdi">Rol Adı:</label>
+            <select id="rolAdi" name="rolAdi" class="form-control" required>
+              <option value="BAKANLIKTEMSILCISI">BAKANLIKTEMSILCISI</option>
+              <option value="ONINCKOMUYE">ONINCKOMUYE</option>
+              <option value="YAYINEKKOMUYE">YAYINEKKOMUYE</option>
+              <option value="ILMEMTEMS">ILMEMTEMS</option>
+            </select>
+          </div>
+          <!-- Eğer kullanıcı ROLE_BAKANLIKTEMSİLCİSİ rolüne sahipse -->
+          <div th:if="${#authorization.expression('hasRole(''ROLE_BAKANLIKTEMSILCISI'')')}">
+            <label for="rolAdi">Rol Adı:</label>
+            <select id="rolAdi" name="rolAdi" class="form-control" required>
+              <option value="ONINCKOMUYE">ONINCKOMUYE</option>
+              <option value="YAYINEKKOMUYE">YAYINEKKOMUYE</option>
+              <option value="ILMEMTEMS">ILMEMTEMS</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Rol Ekle</button>
+        </form>
+      </div>
+    </div>
+    <div class="card-body">
+      <!-- Rol Tablosu -->
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">TC Kimlik No</th>
+          <th scope="col">Adı</th>
+          <th scope="col">Rolu</th>
+          <th scope="col">İşlem</th>
+        </tr>
+        </thead>
+        <tbody th:each="ogretmen, stat : ${ogretmenler}">
+        <tr>
+          <td th:text="${ogretmen.tcKimlikNo}" th:id="'tcKimlikNo-' + ${stat.index}"></td>
+          <td th:text="${ogretmen.ad}"></td>
+          <td th:text="${ogretmen.roller}"></td>
+          <!-- İşlem hücresi (Güncelleme modunda değilken) -->
+          <td>
+                <a th:href="@{'/yonetim/sil/' + ${ogretmen.tcKimlikNo}}" class="btn btn-danger">Sil</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</body>
+
+</html>
+
+

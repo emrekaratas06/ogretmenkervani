@@ -1,0 +1,163 @@
+/* Navbar genel stil */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 0.5rem 1rem;
+}
+
+.nav-item {
+    margin: 0 1rem;
+    transition: transform 0.3s;
+}
+
+.nav-link {
+    font-size: 1rem;
+    color: #888;
+    text-decoration: none;
+    transition: font-size 0.3s;
+}
+
+/* Üzerine gelindiğinde ve aktif olduğunda efekt */
+.nav-link:hover,
+.nav-item.active .nav-link {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.navbar-toggler {
+    background-color: #ddd;
+}
+
+.navbar-toggler-icon {
+    background-color: #888;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+/* ... Diğer CSS Kodları ... */
+
+.navbar-user-info {
+    font-weight: bold;
+}
+
+.navbar-user-badge {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+.navbar-logout-btn {
+    background-color: #d9534f;
+    color: #fff;
+    padding: 5px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-logout-btn:hover {
+    background-color: #c9302c;
+}
+.navbar-brand,
+.nav-link {
+    margin: 0 1rem;
+    transition: transform 0.3s;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+    transform: scale(1.1);
+}
+
+.content-upload {
+    margin-top: 20px;
+}
+
+.video-upload, .magazine-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.video-upload img, .magazine-upload img {
+    width: 100px;
+    height: auto;
+}
+
+.magazine-upload .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 10px;
+}
+
+.magazine-upload .dropdown-content a {
+    padding: 10px 15px;
+    display: block;
+    color: black;
+    text-decoration: none;
+}
+
+.magazine-upload .dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.content-upload-prompt a {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    background-color: #007BFF;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.content-upload-prompt a:hover {
+    background-color: #0056b3;
+}
+
+.content-upload-section {
+    display: none;
+    margin-top: 20px;
+}
+
+.video-upload,
+.magazine-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dropdown-content {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.dropdown-content li a {
+    padding: 10px 20px;
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-content li a:hover {
+    background-color: #f2f2f2;
+}

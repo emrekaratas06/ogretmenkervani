@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+
+<h2>İçerikler</h2>
+<table>
+    <thead>
+    <tr>
+        <th>İçerik Başlığı</th>
+        <th>İçerik Açıklaması</th>
+        <th>İşlem</th>
+    </tr>
+    </thead>
+    <tbody id="icerikListesi">
+    <!-- JavaScript ile içerikler buraya yüklenecek -->
+    </tbody>
+</table>
+
+<script>
+    // Örnek: İçerikleri API'dan çekip listelemek için basit bir JavaScript kodu.
+    fetch('/api/icerik')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('icerikListesi');
+            data.forEach(icerik => {
+                tableBody.innerHTML += `
+                <tr>
+                    <td>${icerik.baslik}</td>
+                    <td>${icerik.aciklama}</td>
+                    <td><button onclick="icerikSil(${icerik.id})">Sil</button></td>
+                </tr>
+            `;
+            });
+        });
+
+    function icerikSil(id) {
+        fetch(`/api/icerik/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if(response.ok) {
+                    location.reload();
+                } else {
+                    alert('İçerik silinirken bir hata oluştu.');
+                }
+            });
+    }
+</script>
+
+</body>
+</html>

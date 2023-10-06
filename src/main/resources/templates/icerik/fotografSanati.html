@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html th:replace="~{_layout :: layout(~{::body})}">
+<head>
+  <title>Fotoğraf Sanatı</title>
+</head>
+<body>
+  <!-- Muvaffakatname Modal -->
+  <div class="modal fade" id="muvaffakatnameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Muvaffakatname</h5>
+        </div>
+        <div class="modal-body">
+          <!-- Muvaffakatname içeriği -->
+          <p th:text="${T(meb.gov.tr.ogretmenkervani.webapp.entity.Constants).MUVAFFAKATNAME}"></p>
+        </div>
+        <div class="modal-footer">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="muvaffakatnameCheck">
+            <label class="form-check-label" for="muvaffakatnameCheck">Okudum ve anladım.</label>
+          </div>
+          <button type="button" class="btn btn-primary" id="muvaffakatnameKabul">Kabul Et</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div th:fragment="content">
+    <h2>Fotoğraf Sanatı</h2>
+    <!-- Bilgilendirme Yazısı -->
+    <div class="alert alert-info mt-4 mb-4">
+      Fotoğraf : 300 dpi çözünürlüğe sahip sanatsal içerikli fotoğraflar kullanılacak. Çocuklara ait fotoğraflar kullanılmayacak, çocuğun bir yetişkinle birlikte çekilen fotoğrafı gönderilecekse; fotoğrafta yer alan kişi/kişilerden ayrı ayrı ıslak imzalı izin belgesi talep edilecek ve bu belge fotoğraf ile birlikte gönderilecektir.
+      Fotoğrafın hikayesi: Yer, zaman, durum, olay bildiren kısa bir bilgilendirme yazısı ile birlikte gönderilecektir.
+      Fotoğrafı çeken kişi: Muvafakatnamede imzası bulunan eser sahibinin ismine yer verilmesi beklenmektedir. Eser sahibinin öğretmen olması zorunludur.
+    </div>
+    <div>
+      <p th:text="${bilgilendirmeYazisi}">Fotoğraf : 300 dpi çözünürlüğe sahip sanatsal içerikli fotoğraflar kullanılacak. Çocuklara ait fotoğraflar kullanılmayacak, çocuğun bir yetişkinle birlikte çekilen fotoğrafı gönderilecekse; fotoğrafta yer alan kişi/kişilerden ayrı ayrı ıslak imzalı izin belgesi talep edilecek ve bu belge fotoğraf ile birlikte gönderilecektir.
+        Fotoğrafın hikayesi: Yer, zaman, durum, olay bildiren kısa bir bilgilendirme yazısı ile birlikte gönderilecektir.
+        Fotoğrafı çeken kişi: Muvafakatnamede imzası bulunan eser sahibinin ismine yer verilmesi beklenmektedir. Eser sahibinin öğretmen olması zorunludur.
+        </p>
+    </div>
+    <form th:action="@{/api/fotografSanati/yukle}" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="foto">Fotoğraf:</label>
+        <input type="file" id="foto" name="foto" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="hikaye">Fotoğrafın Hikayesi:</label>
+        <textarea id="hikaye" name="hikaye" maxlength="300" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="adSoyad">Fotoğrafı çeken kişi Ad Soyad:</label>
+        <input type="text" id="adSoyad" name="adSoyad" class="form-control" required>
+      </div>
+      <div class="form-check mb-3">
+        <input type="checkbox" name="muvaffakatname" class="form-check-input" required>
+        <label class="form-check-label">Muvaffakatnameyi okudum ve kabul ediyorum.</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+  </div>
+  <!-- jQuery ve Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Modal Kontrolü İçin jQuery Kodu -->
+  <script>
+    $(document).ready(function() {
+      // Sayfa yüklendiğinde modal otomatik olarak gösterilir
+      $('#muvaffakatnameModal').modal({ backdrop: 'static', keyboard: false });
+
+      // Kullanıcı "Okudum ve anladım." kutucuğunu işaretlediğinde "Kabul Et" butonu aktif olur
+      $('#muvaffakatnameCheck').change(function() {
+        if ($(this).prop('checked')) {
+          $('#muvaffakatnameKabul').prop('disabled', false);
+        } else {
+          $('#muvaffakatnameKabul').prop('disabled', true);
+        }
+      });
+
+      // "Kabul Et" butonuna tıklandığında modal kapanır
+      $('#muvaffakatnameKabul').click(function() {
+        $('#muvaffakatnameModal').modal('hide');
+      });
+    });
+  </script>
+</body>
+</html>
